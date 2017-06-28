@@ -10,6 +10,7 @@ RUN yum -y install https://centos7.iuscommunity.org/ius-release.rpm
 RUN yum -y install python36u
 RUN yum -y install python36u-pip
 RUN yum -y install cronie
+RUN yum -y install nfs-utils
 RUN pip3.6 install boto3
 ADD backup.py /backup.py
 ADD cronjob.txt /cronjob.txt
