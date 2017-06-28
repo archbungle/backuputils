@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/bin/python3.6
 #Simple, reliable backup script for backing up documents to an NFS share
 #from S3
 #Provides logging, error handling and alerting.
