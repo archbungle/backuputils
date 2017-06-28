@@ -13,5 +13,5 @@ RUN yum -y install cronie
 RUN pip3.6 install boto3
 ADD backup.py /backup.py
 ADD cronjob.txt /cronjob.txt
-CMD /bin/crontab /cronjob.txt
+RUN /bin/crontab /cronjob.txt
 WORKDIR /
