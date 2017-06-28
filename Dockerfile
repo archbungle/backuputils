@@ -14,4 +14,6 @@ RUN pip3.6 install boto3
 ADD backup.py /backup.py
 ADD cronjob.txt /cronjob.txt
 RUN /bin/crontab /cronjob.txt
+RUN mkdir -p /root/.aws/
+ADD credentials /root/.aws/credentials
 WORKDIR /
