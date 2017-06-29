@@ -1,1 +1,1 @@
-*/3 * * * * /backup.py
+*/3 * * * * /cron_env.sh;/backup.py
