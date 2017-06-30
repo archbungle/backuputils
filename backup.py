@@ -27,6 +27,7 @@ bucket_name="document-submissions"
 tstamp = int(round(time.time() * 1000))
 log_file="/tmp/"+"backup-"+str(tstamp)+".log"
 key="backup-"+str(tstamp)+".log"
+sub_folder="files"
 
 def mount_share():
  result=0
@@ -53,7 +54,6 @@ def get_search_tag():
  now = datetime.datetime.now()
  nyear=now.year
  nmonth=now.month
-
  nday=now.day
  week = datetime.date(nyear, nmonth, nday).isocalendar()[1]
  search_tag = str(nyear)+"_"+str(week)
@@ -67,7 +67,7 @@ def list_s3files(search_tag):
  file_count=0
  s3 = boto3.resource('s3')
  bucket = s3.Bucket('document-submissions')
- for obj in bucket.objects.all():
+ for obj in bucket.objects.filter(Prefix='files/'):
   if(search_tag in obj.key):
    bucket_list.append(obj.key)
    file_count+=1
@@ -83,7 +83,8 @@ def make_temp():
  path="/tmp/"
  ts=str(time.time())
  path="/tmp/"+ts
- os.mkdir(path)
+ mpath=path+"/files"
+ os.makedirs(mpath)
  message="Created temporary local directory: "+path
  log_to_file(log_file,message)
  return path
@@ -104,11 +105,12 @@ def get_s3files(path):
 #list all the files on the share, validate against the list of files originally copied (log and alert on failure)
 def copy_to_mount(src_dir,dst_dir):
  result=1
- copy_command="/bin/cp "+src_dir+"/* "+dst_dir+"/"
+ copy_command="/bin/cp "+src_dir+"/"+sub_folder+"/* "+dst_dir+"/"
  result=os.system(copy_command)
  result=0
  message="Copied all downloaded files to "+dst_dir+" result was: "+str(result)
  log_to_file(log_file,message)
+
 
  return result
 
